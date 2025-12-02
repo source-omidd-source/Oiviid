@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMID | Visual Artist</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root { --bg-color: #050505; --text-color: #f0f0f0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+        h1, h2, h3, .art-font { font-family: 'Syne', sans-serif; }
+        html { scroll-behavior: smooth; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+        /* Hover Interactions */
+        .project-item video {
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1), filter 0.4s ease, opacity 0.4s ease;
+            filter: grayscale(100%);
+            opacity: 0.7;
+        }
+        .project-item:hover video {
+            transform: scale(1.03);
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+
+        /* Slider Logic */
+        .snap-scroll { scroll-snap-type: x mandatory; }
+        .snap-center { scroll-snap-align: center; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        /* Client Hover */
+        .client-circle { transition: all 0.5s ease; }
+        .client-circle:hover { border-color: #fff; transform: scale(1.05); }
+        
+        /* Active Dot Animation */
+        .dot.active { background-color: white; transform: scale(1.2); }
+
+        /* Fade In Animation for View More */
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- PRO LITE PLAYER STYLES --- */
+        .lite-youtube {
+            background-color: #000;
+            position: relative;
+            display: block;
+            contain: content;
+            background-position: center center;
+            background-size: cover;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .lite-youtube::before {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 0;
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAADGCAYAAAAT+OqFAAAAdklEQVQoz42QQQrAMAgF/f+f7gp5g5baYhXywq4wM9K0n0sIVQhT+h5D8l2G5L8MyX8Zkv8yJP9lSP7LkPyXIfkvQ/JfhuS/DMl/RZJ/iST/Ekn+JZL8SyT5l0jyL5HkXyLJv0SSf4kk/xJJ/iWS/Esk+ZdI8i+R5F8ib/J/V0mH2C9fAAAAAElFTkSuQmCC);
+            background-position: top;
+            background-repeat: repeat-x;
+            height: 60px;
+            padding-bottom: 50px;
+            width: 100%;
+            transition: all 0.2s cubic-bezier(0, 0, 0.2, 1);
+            z-index: 1;
+        }
+
+        .lite-youtube-play-btn {
+            width: 68px;
+            height: 48px;
+            background-color: #212121;
+            z-index: 1;
+            opacity: 0.8;
+            border-radius: 20%; /* Changed from 25% to 20% based on your request */
+            transition: all 0.2s cubic-bezier(0, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+        }
+
+        .lite-youtube-play-btn:before {
+            content: "";
+            border-style: solid;
+            /* Increased left border width to nudge the triangle to the right */
+            border-width: 11px 0 11px 22px; /* Changed from 19px to 22px */
+            border-color: transparent transparent transparent #fff;
+        }
+
+        .play-btn-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .lite-youtube:hover .lite-youtube-play-btn {
+            background-color: #f00;
+            opacity: 1;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="antialiased relative">
+
+    <!-- FLOATING BUTTON (Desktop Only) - MINIMAL ICON -->
+    <a href="mailto:contact@omid.vfx" class="hidden md:flex fixed bottom-10 right-10 z-50 w-16 h-16 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full items-center justify-center text-white hover:bg-white hover:text-black transition-all duration-500 shadow-2xl group hover:scale-110 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]">
+        <i data-lucide="mail" class="w-6 h-6 group-hover:scale-110 transition-transform"></i>
+    </a>
+
+    <!-- Navigation (Unified Styles) -->
+    <nav class="fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center bg-gradient-to-b from-black/90 via-black/50 to-transparent text-white transition-all duration-300">
+        <!-- Logo -->
+        <a href="#" class="text-3xl font-bold art-font tracking-tighter hover:opacity-80 transition-opacity">OMID.</a>
+        
+        <!-- Center Menu (Compact Glass Pill) -->
+        <div class="hidden md:flex items-center gap-6 text-sm font-medium uppercase tracking-widest bg-white/5 backdrop-blur-md border border-white/10 px-6 py-3 rounded-full shadow-lg hover:border-white/20 transition-colors">
+            <a href="#work" class="hover:text-white text-gray-300 transition-colors">Work</a>
+            <span class="w-1 h-1 rounded-full bg-white/20"></span>
+            <a href="#contact" class="hover:text-white text-gray-300 transition-colors">Contact</a>
+        </div>
+
+        <!-- CTA Button (Identical Style to Menu) -->
+        <a href="mailto:contact@omid.vfx" class="hidden md:block bg-white/5 backdrop-blur-md border border-white/10 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-lg">
+            Get in touch
+        </a>
+    </nav>
+
+    <!-- HERO SLIDER -->
+    <header class="relative w-full aspect-video max-h-[85vh] bg-black overflow-hidden mb-24 group mt-24 md:rounded-3xl border-y md:border border-white/5 mx-auto max-w-[1800px]">
+        
+        <!-- Navigation Buttons -->
+        <button onclick="moveSlider(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-4 rounded-full bg-black/20 hover:bg-white hover:text-black text-white transition-all backdrop-blur-md border border-white/10 flex items-center justify-center cursor-pointer">
+            <i data-lucide="chevron-left" class="w-8 h-8"></i>
+        </button>
+        <button onclick="moveSlider(1)" class="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-4 rounded-full bg-black/20 hover:bg-white hover:text-black text-white transition-all backdrop-blur-md border border-white/10 flex items-center justify-center cursor-pointer">
+            <i data-lucide="chevron-right" class="w-8 h-8"></i>
+        </button>
+
+        <!-- Slider Container -->
+        <div id="heroSlider" class="flex overflow-x-auto w-full h-full snap-scroll no-scrollbar items-center scroll-smooth relative" onscroll="updateDots()">
+            
+            <!-- Slide 1: NA$TY -->
+            <div class="w-full h-full flex-shrink-0 snap-center relative slide-item" id="slide-0">
+                <div class="lite-youtube" data-id="hTzdu0HxP6w" onclick="activateYoutubeEmbed(this)" style="background-image: url('https://img.youtube.com/vi/hTzdu0HxP6w/maxresdefault.jpg');">
+                    <div class="play-btn-wrapper">
+                        <div class="lite-youtube-play-btn"></div>
+                    </div>
+                    <div class="absolute bottom-12 left-12 md:left-24 z-10 pointer-events-none mix-blend-difference">
+                        <h2 class="text-4xl md:text-6xl font-bold art-font leading-none text-white mb-4">NA$TY</h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: OWLS -->
+            <div class="w-full h-full flex-shrink-0 snap-center relative slide-item" id="slide-1">
+                <div class="lite-youtube" data-id="iv3K2Z1nKFc" onclick="activateYoutubeEmbed(this)" style="background-image: url('https://img.youtube.com/vi/iv3K2Z1nKFc/maxresdefault.jpg');">
+                    <div class="play-btn-wrapper">
+                        <div class="lite-youtube-play-btn"></div>
+                    </div>
+                    <div class="absolute bottom-12 left-12 md:left-24 z-10 pointer-events-none mix-blend-difference">
+                        <h2 class="text-4xl md:text-6xl font-bold art-font leading-none text-white mb-4">OWLS</h2>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Slide 3: Ndotspinalot -->
+             <div class="w-full h-full flex-shrink-0 snap-center relative slide-item" id="slide-2">
+                <div class="lite-youtube" data-id="Gw4wxamqd3k" onclick="activateYoutubeEmbed(this)" style="background-image: url('https://img.youtube.com/vi/Gw4wxamqd3k/maxresdefault.jpg');">
+                    <div class="play-btn-wrapper">
+                        <div class="lite-youtube-play-btn"></div>
+                    </div>
+                    <div class="absolute bottom-12 left-12 md:left-24 z-10 pointer-events-none mix-blend-difference">
+                        <h2 class="text-4xl md:text-6xl font-bold art-font leading-none text-white mb-4">Ndotspinalot</h2>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Pagination Dots -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+            <div class="dot active w-2 h-2 rounded-full bg-white/30 transition-all duration-300"></div>
+            <div class="dot w-2 h-2 rounded-full bg-white/30 transition-all duration-300"></div>
+            <div class="dot w-2 h-2 rounded-full bg-white/30 transition-all duration-300"></div>
+        </div>
+
+    </header>
+
+    <!-- MAIN PORTFOLIO -->
+    <main id="work" class="px-6 md:px-12 max-w-[1600px] mx-auto pb-10">
+        
+        <!-- CATEGORY: VFX (Updated with Responsive Buffer Item) -->
+        <section class="mb-24">
+            <h3 class="text-3xl md:text-4xl font-bold art-font mb-8 flex items-center gap-3">
+                <i data-lucide="aperture" class="w-8 h-8 text-white/50"></i> Visual Effects
+            </h3>
+            
+            <div id="vfx-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Initial 3 Videos (Always Visible) -->
+                
+                <a href="#" class="group relative block aspect-video w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
+                    <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                        <source src="https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4" type="video/mp4">
+                    </video>
+                    <!-- Hover Overlay -->
+                    <div class="absolute inset-0 bg-black/40 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-10">
+                        <div class="w-16 h-16 rounded-full bg-white/20 border border-white/30 flex items-center justify-center backdrop-blur-md transform scale-50 group-hover:scale-100 transition-transform duration-300 delay-75 shadow-2xl">
+                            <i data-lucide="play" class="w-6 h-6 fill-white text-white ml-1"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#" class="group relative block aspect-video w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
+                    <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                        <source src="https://videos.pexels.com/video-files/2659055/2659055-hd_1920_1080_30fps.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-black/40 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-10">
+                        <div class="w-16 h-16 rounded-full bg-white/20 border border-white/30 flex items-center justify-center backdrop-blur-md transform scale-50 group-hover:scale-100 transition-transform duration-300 delay-75 shadow-2xl">
+                            <i data-lucide="play" class="w-6 h-6 fill-white text-white ml-1"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#" class="group relative block aspect-video w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
+                    <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                        <source src="https://videos.pexels.com/video-files/854671/854671-hd_1920_1080_25fps.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-black/40 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-10">
+                        <div class="w-16 h-16 rounded-full bg-white/20 border border-white/30 flex items-center justify-center backdrop-blur-md transform scale-50 group-hover:scale-100 transition-transform duration-300 delay-75 shadow-2xl">
+                            <i data-lucide="play" class="w-6 h-6 fill-white text-white ml-1"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- VARIABLE VISIBILITY ITEM: Shows ONLY on Tablet (md) to complete the 2x2 grid -->
+                <a href="#" class="vfx-variable hidden md:block lg:hidden group relative block aspect-video w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
+                    <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                        <source src="https://videos.pexels.com/video-files/5377684/5377684-hd_1920_1080_25fps.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-black/40 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-10">
+                        <div class="w-16 h-16 rounded-full bg-white/20 border border-white/30 flex items-center justify-center backdrop-blur-md transform scale-50 group-hover:scale-100 transition-transform duration-300 delay-75 shadow-2xl">
+                            <i data-lucide="play" class="w-6 h-6 fill-white text-white ml-1"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- COMPLETELY HIDDEN ITEMS (Show on click) -->
+                
+                <!-- Video 5 -->
+                <a href="#" class="vfx-hidden hidden group relative block aspect-video w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
+                    <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                        <source src="https://videos.pexels.com/video-files/4990242/4990242-hd_1920_1080_30fps.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-black/40 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-10">
+                        <div class="w-16 h-16 rounded-full bg-white/20 border border-white/30 flex items-center justify-center backdrop-blur-md transform scale-50 group-hover:scale-100 transition-transform duration-300 delay-75 shadow-2xl">
+                            <i data-lucide="play" class="w-6 h-6 fill-white text-white ml-1"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Video 6 -->
+                <a href="#" class="vfx-hidden hidden group relative block aspect-video w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
+                    <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                        <source src="https://videos.pexels.com/video-files/5849603/5849603-hd_1920_1080_30fps.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-black/40 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-10">
+                        <div class="w-16 h-16 rounded-full bg-white/20 border border-white/30 flex items-center justify-center backdrop-blur-md transform scale-50 group-hover:scale-100 transition-transform duration-300 delay-75 shadow-2xl">
+                            <i data-lucide="play" class="w-6 h-6 fill-white text-white ml-1"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Video 7 -->
+                <a href="#" class="vfx-hidden hidden group relative block aspect-video w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
+                    <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                        <source src="https://videos.pexels.com/video-files/6981411/6981411-hd_1920_1080_30fps.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-black/40 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-10">
+                        <div class="w-16 h-16 rounded-full bg-white/20 border border-white/30 flex items-center justify-center backdrop-blur-md transform scale-50 group-hover:scale-100 transition-transform duration-300 delay-75 shadow-2xl">
+                            <i data-lucide="play" class="w-6 h-6 fill-white text-white ml-1"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Video 8 -->
+                <a href="#" class="vfx-hidden hidden group relative block aspect-video w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
+                    <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                        <source src="https://videos.pexels.com/video-files/5049368/5049368-hd_1920_1080_30fps.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-black/40 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-10">
+                        <div class="w-16 h-16 rounded-full bg-white/20 border border-white/30 flex items-center justify-center backdrop-blur-md transform scale-50 group-hover:scale-100 transition-transform duration-300 delay-75 shadow-2xl">
+                            <i data-lucide="play" class="w-6 h-6 fill-white text-white ml-1"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Video 9 -->
+                <a href="#" class="vfx-hidden hidden group relative block aspect-video w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
+                    <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                        <source src="https://videos.pexels.com/video-files/3195394/3195394-hd_1920_1080_25fps.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-black/40 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-10">
+                        <div class="w-16 h-16 rounded-full bg-white/20 border border-white/30 flex items-center justify-center backdrop-blur-md transform scale-50 group-hover:scale-100 transition-transform duration-300 delay-75 shadow-2xl">
+                            <i data-lucide="play" class="w-6 h-6 fill-white text-white ml-1"></i>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+
+            <!-- View More Button -->
+            <div class="text-center mt-12">
+                <button onclick="loadMoreVfx(this)" class="inline-flex items-center gap-2 border border-white/20 px-8 py-3 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all">
+                    View More <i data-lucide="arrow-down" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- CATEGORY: LYRICS -->
+        <section class="mb-24">
+            <h3 class="text-3xl md:text-4xl font-bold art-font mb-8 flex items-center gap-3">
+                <i data-lucide="music" class="w-8 h-8 text-white/50"></i> Lyric Videos
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <a href="#" class="group relative block aspect-video w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
+                    <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                        <source src="https://videos.pexels.com/video-files/3623352/3623352-hd_1920_1080_30fps.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-black/40 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-10">
+                        <div class="w-16 h-16 rounded-full bg-white/20 border border-white/30 flex items-center justify-center backdrop-blur-md transform scale-50 group-hover:scale-100 transition-transform duration-300 delay-75 shadow-2xl">
+                            <i data-lucide="play" class="w-6 h-6 fill-white text-white ml-1"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#" class="group relative block aspect-video w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
+                    <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                        <source src="https://videos.pexels.com/video-files/2759744/2759744-hd_1920_1080_30fps.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-black/40 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-10">
+                        <div class="w-16 h-16 rounded-full bg-white/20 border border-white/30 flex items-center justify-center backdrop-blur-md transform scale-50 group-hover:scale-100 transition-transform duration-300 delay-75 shadow-2xl">
+                            <i data-lucide="play" class="w-6 h-6 fill-white text-white ml-1"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#" class="group relative block aspect-video w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
+                    <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                        <source src="https://videos.pexels.com/video-files/2534592/2534592-hd_1920_1080_24fps.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-black/40 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-10">
+                        <div class="w-16 h-16 rounded-full bg-white/20 border border-white/30 flex items-center justify-center backdrop-blur-md transform scale-50 group-hover:scale-100 transition-transform duration-300 delay-75 shadow-2xl">
+                            <i data-lucide="play" class="w-6 h-6 fill-white text-white ml-1"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- CATEGORY: AI & GENERATIVE -->
+        <section>
+            <h3 class="text-3xl md:text-4xl font-bold art-font mb-8 flex items-center gap-3">
+                <i data-lucide="brain-circuit" class="w-8 h-8 text-white/50"></i> AI Visuals
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <a href="#" class="group relative block aspect-video w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
+                    <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                        <source src="https://videos.pexels.com/video-files/6981411/6981411-hd_1920_1080_30fps.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-black/40 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-10">
+                        <div class="w-16 h-16 rounded-full bg-white/20 border border-white/30 flex items-center justify-center backdrop-blur-md transform scale-50 group-hover:scale-100 transition-transform duration-300 delay-75 shadow-2xl">
+                            <i data-lucide="play" class="w-6 h-6 fill-white text-white ml-1"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#" class="group relative block aspect-video w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
+                    <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                        <source src="https://videos.pexels.com/video-files/5049368/5049368-hd_1920_1080_30fps.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-black/40 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-10">
+                        <div class="w-16 h-16 rounded-full bg-white/20 border border-white/30 flex items-center justify-center backdrop-blur-md transform scale-50 group-hover:scale-100 transition-transform duration-300 delay-75 shadow-2xl">
+                            <i data-lucide="play" class="w-6 h-6 fill-white text-white ml-1"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#" class="group relative block aspect-video w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
+                    <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                        <source src="https://videos.pexels.com/video-files/3195394/3195394-hd_1920_1080_25fps.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-black/40 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-10">
+                        <div class="w-16 h-16 rounded-full bg-white/20 border border-white/30 flex items-center justify-center backdrop-blur-md transform scale-50 group-hover:scale-100 transition-transform duration-300 delay-75 shadow-2xl">
+                            <i data-lucide="play" class="w-6 h-6 fill-white text-white ml-1"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- CLIENTS -->
+    <section class="bg-[#0a0a0a] py-16 border-t border-white/5">
+        <div class="max-w-[1400px] mx-auto px-6 text-center">
+            <h2 class="text-sm md:text-base mb-12 uppercase tracking-[0.3em] font-medium text-gray-500">TRUSTED BY</h2>
+            
+            <div class="flex flex-wrap justify-center gap-16 md:gap-32">
+                
+                <a href="#" class="group flex flex-col items-center gap-6">
+                    <div class="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden border border-white/10 client-circle relative">
+                        <img src="https://images.unsplash.com/photo-1531384441138-2736e62e0919?q=80&w=1887&auto=format&fit=crop" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Pouria K">
+                        <div class="absolute inset-0 bg-purple-600/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <i data-lucide="play" class="fill-white w-10 h-10"></i>
+                        </div>
+                    </div>
+                    <span class="text-xl md:text-2xl font-bold tracking-tight">POURIA K</span>
+                </a>
+
+                <a href="#" class="group flex flex-col items-center gap-6">
+                    <div class="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden border border-white/10 client-circle relative">
+                        <img src="https://images.unsplash.com/photo-1583195764036-6dc248ac07d9?q=80&w=1752&auto=format&fit=crop" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Pressa">
+                        <div class="absolute inset-0 bg-blue-600/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <i data-lucide="play" class="fill-white w-10 h-10"></i>
+                        </div>
+                    </div>
+                    <span class="text-xl md:text-2xl font-bold tracking-tight">PRESSA</span>
+                </a>
+
+                <a href="#" class="group flex flex-col items-center gap-6">
+                    <div class="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden border border-white/10 client-circle relative">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1887&auto=format&fit=crop" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Nina Woods">
+                        <div class="absolute inset-0 bg-green-600/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <i data-lucide="play" class="fill-white w-10 h-10"></i>
+                        </div>
+                    </div>
+                    <span class="text-xl md:text-2xl font-bold tracking-tight">NINA WOODS</span>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contact" class="relative px-6 md:px-12 py-24 max-w-[1600px] mx-auto border-t border-white/5">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-16">
+            
+            <!-- Left: Call to Action -->
+            <div class="md:w-1/2 flex flex-col items-start">
+                 <p class="text-sm text-gray-500 uppercase tracking-widest mb-6">Ready to collaborate?</p>
+                 <a href="mailto:contact@omid.vfx" class="group relative inline-flex items-center gap-4 text-5xl md:text-7xl font-bold art-font text-white hover:text-gray-300 transition-colors">
+                    <span>Let's Talk</span>
+                    <div class="w-16 h-16 rounded-full bg-white text-black flex items-center justify-center text-2xl group-hover:rotate-45 transition-transform duration-500">
+                        <i data-lucide="arrow-up-right" class="w-8 h-8"></i>
+                    </div>
+                 </a>
+            </div>
+
+            <!-- Right: Profile & Info -->
+            <div class="md:w-auto flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                <!-- Profile Photo -->
+                <div class="w-40 h-40 md:w-64 md:h-64 rounded-3xl overflow-hidden border border-white/10 relative group shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1623582854588-d60de57fa33f?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Me">
+                </div>
+                
+                <!-- Info -->
+                <div class="text-center md:text-left">
+                    <p class="text-gray-400 mb-6 max-w-xs leading-relaxed">
+                        Visual Artist based in the cloud.<br>
+                        Specialized in Music & Motion.
+                    </p>
+                    <div class="flex justify-center md:justify-start gap-6">
+                        <a href="https://instagram.com" target="_blank" class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300">
+                            <i data-lucide="instagram" class="w-5 h-5"></i>
+                        </a>
+                        <a href="mailto:contact@omid.vfx" class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300">
+                            <i data-lucide="mail" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        function moveSlider(direction) {
+            const slider = document.getElementById('heroSlider');
+            const totalSlides = 3; 
+            const slideWidth = window.innerWidth;
+            const maxScroll = slideWidth * (totalSlides - 1);
+            const currentScroll = slider.scrollLeft;
+
+            if (direction === 1 && currentScroll >= maxScroll - 50) {
+                slider.scrollTo({ left: 0, behavior: 'smooth' });
+            } else if (direction === -1 && currentScroll <= 50) {
+                slider.scrollTo({ left: maxScroll, behavior: 'smooth' });
+            } else {
+                slider.scrollBy({ left: direction * slideWidth, behavior: 'smooth' });
+            }
+        }
+
+        function updateDots() {
+            const slider = document.getElementById('heroSlider');
+            const dots = document.querySelectorAll('.dot');
+            const scrollPosition = slider.scrollLeft;
+            const slideWidth = window.innerWidth;
+            const activeIndex = Math.round(scrollPosition / slideWidth);
+
+            dots.forEach((dot, index) => {
+                if(index === activeIndex) dot.classList.add('active');
+                else dot.classList.remove('active');
+            });
+        }
+
+        function activateYoutubeEmbed(wrapper) {
+            const videoId = wrapper.getAttribute('data-id');
+            const iframe = document.createElement('iframe');
+            const origin = window.location.origin;
+
+            iframe.setAttribute('src', `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0&origin=${origin}`);
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+            iframe.setAttribute('allowfullscreen', 'true');
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.objectFit = 'cover';
+            
+            wrapper.innerHTML = '';
+            wrapper.appendChild(iframe);
+            
+            // This selector finds any text overlay inside the clicked wrapper and hides it
+            const overlay = wrapper.querySelector('.absolute.pointer-events-none');
+            if(overlay) overlay.style.display = 'none';
+
+            wrapper.onclick = null;
+            wrapper.style.cursor = 'default';
+        }
+
+        function loadMoreVfx(btn) {
+            // Find all elements with 'vfx-hidden' class
+            const hiddenItems = document.querySelectorAll('.vfx-hidden');
+            
+            // Loop through and show them
+            hiddenItems.forEach(item => {
+                item.classList.remove('hidden');
+                item.classList.add('fade-in'); // Add animation class
+            });
+
+            // Fix the variable item (Item 4) to be always visible now
+            const variableItems = document.querySelectorAll('.vfx-variable');
+            variableItems.forEach(item => {
+                item.classList.remove('hidden');
+                item.classList.remove('lg:hidden'); 
+                item.classList.add('fade-in'); // Add animation
+            });
+
+            // Hide the button itself after clicking
+            btn.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
