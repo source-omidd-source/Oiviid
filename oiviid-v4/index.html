@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Omid | Music Video VFX, Lyric Videos &amp; AI Visuals</title>
+  <meta name="description" content="Omid makes music video VFX, lyric videos and AI visuals for artists and labels. Credits include Pressa, Pouria K, Nina Woods, Bundog and Yume.">
+  <link rel="canonical" href="https://oiviid.com/">
+  <meta name="theme-color" content="#e9eaee">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://oiviid.com/">
+  <meta property="og:title" content="Omid | Music video VFX, lyric videos, AI visuals">
+  <meta property="og:description" content="Visuals for Pressa, Pouria K, Nina Woods and more.">
+  <meta property="og:image" content="https://img.youtube.com/vi/hTzdu0HxP6w/maxresdefault.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Omid",
+    "url": "https://oiviid.com/",
+    "jobTitle": "Visual artist: music video VFX, lyric videos, AI visuals",
+    "image": "https://oiviid.com/assets/me.webp",
+    "email": "mailto:editedbyomidd@gmail.com",
+    "sameAs": ["https://instagram.com/oiviid"]
+  }
+  </script>
+</head>
+<body class="is-loading">
+  <!-- Loader -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__bar"><span id="loaderBar"></span></div>
+    <div class="loader__count" id="loaderCount">000</div>
+  </div>
+
+  
+  <header class="nav" id="nav">
+    <a href="#top" class="nav__logo roll" data-sfx>OMID</a>
+    <div class="nav__right">
+      <button class="sound" id="soundToggle" aria-label="Toggle sound" aria-pressed="true" data-sfx>
+        <span></span><span></span><span></span><span></span>
+      </button>
+      <a href="#contact" class="pill pill--dark" data-sfx><span class="roll">Let's talk</span><i class="pill__dot"></i></a>
+      <button class="pill pill--light menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menu" data-sfx>
+        <span class="roll">Menu</span><i class="menu-btn__icon"><b></b><b></b></i>
+      </button>
+    </div>
+  </header>
+
+  <nav class="menu" id="menu" aria-label="Primary" hidden>
+    <a href="#top" class="menu__link" data-sfx><span class="roll">Showreel</span></a>
+    <a href="#work" class="menu__link" data-sfx><span class="roll">Work</span></a>
+    <a href="#services" class="menu__link" data-sfx><span class="roll">Services</span></a>
+    <a href="#about-me" class="menu__link" data-sfx><span class="roll">About</span></a>
+    <a href="#contact" class="menu__link" data-sfx><span class="roll">Contact</span></a>
+  </nav>
+
+  <main id="top">
+    <!-- HERO: the reel inside an editor; scrolling scrubs the timeline -->
+    <section class="reel" id="hero">
+      <div class="reel__sticky">
+        <div class="reel__head">
+          <h1 class="reel__title split-lines">Music video VFX, lyric videos &amp; AI visuals.</h1>
+          <div class="reel__ctas">
+            <a href="#contact" class="pill pill--blue" data-sfx><span class="roll">Start a project</span><i class="pill__dot"></i></a>
+            <a href="#work" class="pill pill--light" data-sfx><span class="roll">See the work</span></a>
+          </div>
+        </div>
+
+        <div class="editor" id="editor">
+          <div class="editor__bar">
+            <span class="editor__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="mono">omid_showreel_2026.prproj</span>
+            <span class="mono editor__hint">Scroll to edit ↓</span>
+          </div>
+          <div class="editor__monitor" id="monitor">
+            <canvas id="reelCanvas" aria-label="Showreel"></canvas>
+            <div class="monitor__guides" aria-hidden="true"></div>
+            <div class="monitor__fx mono" id="fxLabel" aria-hidden="true"></div>
+            <div class="monitor__title" id="clipTitle">
+              <span class="mono" id="clipTag"></span>
+              <strong id="clipName"></strong>
+              <span id="clipArtist"></span>
+            </div>
+            <span class="monitor__tc mono" id="tc">00:00:00:00</span>
+          </div>
+          <div class="timeline" id="timeline">
+            <div class="timeline__ruler" id="ruler" aria-hidden="true"></div>
+            <div class="track"><span class="track__label mono">V2</span><div class="track__lane" id="laneTitles"></div></div>
+            <div class="track"><span class="track__label mono">V1</span><div class="track__lane" id="laneClips"></div></div>
+            <div class="track track--audio"><span class="track__label mono">A1</span><div class="track__lane"><canvas id="wave" aria-hidden="true"></canvas></div></div>
+            <div class="playhead" id="playhead" aria-hidden="true"><i></i></div>
+          </div>
+        </div>
+      </div>
+      <ol class="reel__clips" id="clipList" hidden>
+          <li data-src="assets/nasty-ai2.mp4" data-name="Nasty" data-artist="Pressa &amp; Hunxho" data-tag="AI visuals" data-color="#8b7dff" data-crop="1" data-fx="whip"></li>
+          <li data-src="assets/ndot-vfx1.mp4" data-name="Runnin Thru The City" data-artist="Ndotspinalot" data-tag="VFX" data-color="#3fc79a" data-crop="1" data-fx="glitch"></li>
+          <li data-src="assets/owls-vfx3.mp4" data-name="Owls" data-artist="Owls x Veli" data-tag="VFX" data-color="#ff8a5c" data-crop="1" data-fx="burn"></li>
+          <li data-src="assets/oddlord-vfx2.mp4" data-name="Crime Scene" data-artist="Oddlord" data-tag="VFX" data-color="#ff5c8a" data-crop="1.38" data-fx="zoom"></li>
+          <li data-src="assets/sknny-ly.mp4" data-name="SKNY" data-artist="Pouria K" data-tag="Lyric video" data-color="#ffc94d" data-crop="1" data-fx="mosh"></li>
+          <li data-src="assets/pause-ly.mp4" data-name="Pause" data-artist="Pouria K" data-tag="Lyric video" data-color="#4dbcff" data-crop="1" data-fx="ink"></li>
+          <li data-src="assets/fr-vfx.mp4" data-name="Test Shot 01" data-artist="Personal" data-tag="VFX" data-color="#b6f03c" data-crop="1" data-fx=""></li>
+      </ol>
+    </section>
+
+
+    <!-- CREDITS -->
+    <section class="credits" aria-label="Trusted by">
+      <p class="mono credits__label">Trusted by</p>
+      <div class="credits__marquee">
+        <div class="credits__track">
+          <span class="credit"><img src="assets/pressa.webp" alt="">Pressa</span>
+          <span class="credit"><img src="assets/pouria.webp" alt="">Pouria K</span>
+          <span class="credit"><img src="assets/nina.webp" alt="">Nina Woods</span>
+          <span class="credit"><img src="assets/bundog.webp" alt="">Bundog</span>
+          <span class="credit"><img src="assets/yume.webp" alt="">Yume</span>
+          <span class="credit"><span class="credit__dot"></span>Ndotspinalot</span>
+          <span class="credit"><span class="credit__dot"></span>Owls</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTRO -->
+    <section class="intro" id="intro">
+      <div class="intro__grid">
+        <h2 class="intro__title split-lines">I make songs look the way they sound.</h2>
+        <div class="intro__side">
+          <p class="intro__text reveal">Music video VFX, lyric videos and AI visuals for artists and labels. Trusted by Pressa, Pouria K, Nina Woods, Bundog and Yume.</p>
+          <a href="#about-me" class="pill pill--light reveal" data-sfx><span class="roll">About me</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORK -->
+    <section class="work" id="work">
+      <div class="work__head">
+        <h2 class="work__title split-lines">Featured work</h2>
+        <div class="filters reveal" aria-label="Filter work">
+          <button class="pill pill--light filter is-active" data-filter="all" data-sfx><span class="roll">All</span></button>
+          <button class="pill pill--light filter" data-filter="vfx" data-sfx><span class="roll">VFX</span></button>
+          <button class="pill pill--light filter" data-filter="lyric" data-sfx><span class="roll">Lyric</span></button>
+          <button class="pill pill--light filter" data-filter="ai" data-sfx><span class="roll">AI</span></button>
+          <button class="pill pill--light filter" data-filter="mv" data-sfx><span class="roll">Music video</span></button>
+        </div>
+      </div>
+
+      <div class="projects" id="projects">
+        <article data-cat="ai" class="project" data-yt="hTzdu0HxP6w" data-preview="assets/nasty-ai2.mp4">
+          <div class="project__media"><img src="https://img.youtube.com/vi/hTzdu0HxP6w/maxresdefault.jpg" alt="Pressa & Hunxho, Nasty" loading="lazy"></div>
+          <div class="project__info"><h3 class="project__name roll">Nasty</h3><span class="project__arrow">↗</span></div>
+          <p class="project__tags mono">Pressa &amp; Hunxho • AI visuals</p>
+        </article>
+        <article data-cat="vfx" class="project" data-yt="Gw4wxamqd3k" data-preview="assets/ndot-vfx1.mp4">
+          <div class="project__media"><img src="assets/posters/ndot-vfx1.jpg" alt="Ndotspinalot, Runnin Thru The City" loading="lazy"></div>
+          <div class="project__info"><h3 class="project__name roll">Runnin Thru The City</h3><span class="project__arrow">↗</span></div>
+          <p class="project__tags mono">Ndotspinalot • VFX</p>
+        </article>
+        <article data-cat="vfx" class="project" data-yt="iv3K2Z1nKFc" data-preview="assets/owls-vfx3.mp4">
+          <div class="project__media"><img src="assets/posters/owls-vfx3.jpg" alt="Owls x Veli" loading="lazy"></div>
+          <div class="project__info"><h3 class="project__name roll">Owls</h3><span class="project__arrow">↗</span></div>
+          <p class="project__tags mono">Owls x Veli • VFX</p>
+        </article>
+        <article data-cat="vfx" class="project project--crop" data-video="assets/oddlord-vfx2.mp4" data-link="https://www.instagram.com/p/DEuHet7OZ8N/" data-preview="assets/oddlord-vfx2.mp4">
+          <div class="project__media"><img src="assets/posters/oddlord-vfx2.jpg" alt="Oddlord, Crime Scene" loading="lazy"></div>
+          <div class="project__info"><h3 class="project__name roll">Crime Scene</h3><span class="project__arrow">↗</span></div>
+          <p class="project__tags mono">Oddlord • VFX</p>
+        </article>
+        <article data-cat="lyric" class="project" data-yt="U5qXUP1zfe8" data-preview="assets/sknny-ly.mp4">
+          <div class="project__media"><img src="assets/posters/sknny-ly.jpg" alt="Pouria K, SKNY lyric video" loading="lazy"></div>
+          <div class="project__info"><h3 class="project__name roll">SKNY</h3><span class="project__arrow">↗</span></div>
+          <p class="project__tags mono">Pouria K • Lyric video</p>
+        </article>
+        <article data-cat="lyric" class="project" data-yt="TJvIMZQCaH8" data-preview="assets/pause-ly.mp4">
+          <div class="project__media"><img src="assets/posters/pause-ly.jpg" alt="Pouria K, Pause lyric video" loading="lazy"></div>
+          <div class="project__info"><h3 class="project__name roll">Pause</h3><span class="project__arrow">↗</span></div>
+          <p class="project__tags mono">Pouria K • Lyric video</p>
+        </article>
+        <article data-cat="mv" class="project" data-yt="B40RPIv-kBs">
+          <div class="project__media"><img src="https://img.youtube.com/vi/B40RPIv-kBs/maxresdefault.jpg" alt="Nina Woods, Missed Calls" loading="lazy"></div>
+          <div class="project__info"><h3 class="project__name roll">Missed Calls</h3><span class="project__arrow">↗</span></div>
+          <p class="project__tags mono">Nina Woods • Visualizer</p>
+        </article>
+        <article data-cat="mv" class="project" data-yt="5SeHOvrld5Q">
+          <div class="project__media"><img src="https://img.youtube.com/vi/5SeHOvrld5Q/maxresdefault.jpg" alt="Bundog & Jackboy, Hot One" loading="lazy"></div>
+          <div class="project__info"><h3 class="project__name roll">Hot One</h3><span class="project__arrow">↗</span></div>
+          <p class="project__tags mono">Bundog &amp; Jackboy • Music video</p>
+        </article>
+        <article data-cat="vfx" class="project" data-video="assets/fr-vfx.mp4" data-preview="assets/fr-vfx.mp4">
+          <div class="project__media"><img src="assets/posters/fr-vfx.jpg" alt="VFX test shot 01" loading="lazy"></div>
+          <div class="project__info"><h3 class="project__name roll">Test Shot 01</h3><span class="project__arrow">↗</span></div>
+          <p class="project__tags mono">Personal • VFX</p>
+        </article>
+        <article data-cat="vfx" class="project" data-video="assets/lst-vfx-1.mp4" data-preview="assets/lst-vfx-1.mp4">
+          <div class="project__media"><img src="assets/posters/lst-vfx-1.jpg" alt="VFX test shot 02" loading="lazy"></div>
+          <div class="project__info"><h3 class="project__name roll">Test Shot 02</h3><span class="project__arrow">↗</span></div>
+          <p class="project__tags mono">Personal • VFX</p>
+        </article>
+      </div>
+
+      <div class="work__cta reveal">
+        <p>Got a release coming up?</p>
+        <a href="#contact" class="pill pill--blue" data-sfx><span class="roll">Let's make yours next</span><i class="pill__dot"></i></a>
+      </div>
+    </section>
+
+    <!-- SERVICES (dark) -->
+    <section class="services" id="services">
+      <div class="services__marquee" aria-hidden="true">
+        <div class="services__line" data-dir="-1">MUSIC VIDEO VFX&nbsp;•&nbsp;LYRIC VIDEOS&nbsp;•&nbsp;AI VISUALS&nbsp;•&nbsp;</div>
+        <div class="services__line" data-dir="1">VISUALIZERS&nbsp;•&nbsp;SOCIAL CUTS&nbsp;•&nbsp;CANVAS LOOPS&nbsp;•&nbsp;</div>
+      </div>
+      <ul class="services__list">
+        <li class="service reveal" data-preview="assets/owls-vfx1.mp4">
+          <span class="mono">01</span>
+          <h3>Music video VFX</h3>
+          <p>Compositing, clean-up and stylised looks that make the video unforgettable.</p>
+          <a href="#contact" class="service__go mono" data-sfx>Discuss ↗</a>
+        </li>
+        <li class="service reveal" data-preview="assets/pause-ly.mp4">
+          <span class="mono">02</span>
+          <h3>Lyric videos</h3>
+          <p>Kinetic type cut to the beat, in English, Farsi or any language.</p>
+          <a href="#contact" class="service__go mono" data-sfx>Discuss ↗</a>
+        </li>
+        <li class="service reveal" data-preview="assets/nasty-ai4.mp4">
+          <span class="mono">03</span>
+          <h3>AI visuals</h3>
+          <p>Art-directed AI worlds and transitions that never look generic.</p>
+          <a href="#contact" class="service__go mono" data-sfx>Discuss ↗</a>
+        </li>
+        <li class="service reveal" data-preview="assets/ndot-vfx2.mp4">
+          <span class="mono">04</span>
+          <h3>Visualizers &amp; social cuts</h3>
+          <p>Loops, Spotify Canvas and vertical cuts for the whole rollout.</p>
+          <a href="#contact" class="service__go mono" data-sfx>Discuss ↗</a>
+        </li>
+      </ul>
+      <div class="service-preview" id="servicePreview" aria-hidden="true"><video muted loop playsinline preload="none"></video></div>
+    </section>
+
+
+    <!-- PROCESS -->
+    <section class="process" id="process">
+      <div class="process__head">
+        <h2 class="section-title split-lines">How it works</h2>
+        <p class="mono process__sub reveal">Simple, fast, no surprises.</p>
+      </div>
+      <ol class="steps">
+        <li class="step reveal">
+          <span class="mono step__num">01</span>
+          <h3>Send the brief</h3>
+          <p>The track, a few references and your release date.</p>
+        </li>
+        <li class="step reveal">
+          <span class="mono step__num">02</span>
+          <h3>See the look first</h3>
+          <p>Concept and look tests before anything is final.</p>
+        </li>
+        <li class="step reveal">
+          <span class="mono step__num">03</span>
+          <h3>Ready for drop day</h3>
+          <p>Final masters plus vertical cuts, on schedule.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about" id="about-me">
+      <figure class="about__photo reveal">
+        <img src="assets/me.webp" alt="Portrait of Omid" width="500" height="500" loading="lazy">
+      </figure>
+      <div class="about__text">
+        <p class="mono about__label reveal">About</p>
+        <h2 class="about__title split-lines">I'm Omid, a visual artist working where music meets motion.</h2>
+        <p class="about__body reveal">I build VFX, lyric videos and AI visuals for rappers, singers and labels. Remote, worldwide.</p>
+        <div class="about__links reveal">
+          <a href="https://instagram.com/oiviid" target="_blank" rel="noopener" class="pill pill--light" data-sfx><span class="roll">Instagram</span></a>
+          <a href="#contact" class="pill pill--dark" data-sfx><span class="roll">Work with me</span><i class="pill__dot"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+      <p class="mono contact__kicker reveal">Got a release coming up?</p>
+      <a class="contact__title roll-big" href="mailto:editedbyomidd@gmail.com?subject=New%20project" data-sfx>Let's work together!</a>
+      <div class="contact__grid">
+        <div class="reveal">
+          <p class="mono contact__label">Email</p>
+          <button class="contact__link" id="copyMail" data-sfx><span class="roll">editedbyomidd@gmail.com</span> <em id="copyState" class="mono">copy</em></button>
+        </div>
+        <div class="reveal">
+          <p class="mono contact__label">Instagram</p>
+          <a class="contact__link" href="https://instagram.com/oiviid" target="_blank" rel="noopener" data-sfx><span class="roll">@oiviid</span></a>
+        </div>
+        <div class="reveal">
+          <p class="mono contact__label">Based</p>
+          <p class="contact__link">Remote, worldwide</p>
+        </div>
+      </div>
+      <footer class="footer mono">
+        <span>©2026 Omid</span>
+        <a href="#top" data-sfx>Back to top ↑</a>
+      </footer>
+    </section>
+  </main>
+
+  <a href="#contact" class="sticky-cta pill pill--blue" id="stickyCta" data-sfx><span class="roll">Start a project</span><i class="pill__dot"></i></a>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Video player" hidden>
+    <button class="pill pill--light lightbox__close" id="lbClose" data-sfx><span class="roll">Close</span></button>
+    <div class="lightbox__frame" id="lbFrame"></div>
+    <div class="lightbox__info">
+      <p class="lightbox__title"><strong id="lbTitle"></strong> <span class="mono" id="lbTags"></span></p>
+      <div class="lightbox__actions">
+        <a id="lbExternal" class="mono lightbox__ext" target="_blank" rel="noopener" hidden data-sfx>Open original ↗</a>
+        <a href="#contact" class="pill pill--blue" id="lbCta" data-sfx><span class="roll">Want this for your track?</span></a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="js/sound.js"></script>
+  <script src="js/main.js" defer></script>
+  <script type="module" src="js/reel.js"></script>
+  <script type="module" src="js/project-fx.js"></script>
+</body>
+</html>

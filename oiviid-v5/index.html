@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Omid | Music Video VFX, Lyric Videos &amp; AI Visuals</title>
+  <meta name="description" content="Omid makes music video VFX, lyric videos and AI visuals for artists and labels. Credits include Pressa, Pouria K, Nina Woods, Bundog and Yume.">
+  <link rel="canonical" href="https://oiviid.com/">
+  <meta name="theme-color" content="#f3f1ec">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://oiviid.com/">
+  <meta property="og:title" content="Omid | Music video VFX, lyric videos, AI visuals">
+  <meta property="og:description" content="Visuals for Pressa, Pouria K, Nina Woods and more.">
+  <meta property="og:image" content="https://img.youtube.com/vi/hTzdu0HxP6w/maxresdefault.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Omid",
+    "url": "https://oiviid.com/",
+    "jobTitle": "Visual artist: music video VFX, lyric videos, AI visuals",
+    "image": "https://oiviid.com/assets/me.webp",
+    "email": "mailto:editedbyomidd@gmail.com",
+    "sameAs": ["https://instagram.com/oiviid"]
+  }
+  </script>
+</head>
+<body class="is-intro">
+  <!-- SVG filter for the liquid distortion driven by scroll speed -->
+  <svg class="defs" aria-hidden="true" width="0" height="0">
+    <filter id="liquid" x="-10%" y="-20%" width="120%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.06" numOctaves="2" seed="3" result="n" />
+      <feDisplacementMap id="liquidMap" in="SourceGraphic" in2="n" scale="0" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </svg>
+
+  <!-- Intro: a few words cut to the beat, like the first bars of a lyric video -->
+  <div class="intro" id="intro" aria-hidden="true">
+    <div class="intro__stage" id="introStage"></div>
+    <button class="intro__skip mono" id="introSkip">Skip intro</button>
+  </div>
+
+  <div class="flash" id="flash" aria-hidden="true"></div>
+
+  <header class="nav">
+    <a href="#top" class="nav__logo" data-sfx>omid</a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#work" data-sfx>Work</a>
+      <a href="#services" data-sfx>Services</a>
+      <a href="#about" data-sfx>About</a>
+    </nav>
+    <div class="nav__right">
+      <button class="sound" id="soundToggle" aria-label="Toggle sound" aria-pressed="true" data-sfx><span></span><span></span><span></span><span></span></button>
+      <a href="#contact" class="btn btn--accent" data-sfx>Start a project</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO: the reel plays inside the letters -->
+    <section class="hero" id="hero">
+      <canvas id="heroType" class="hero__type" aria-label="Omid"></canvas>
+      <video id="heroVideo" src="assets/hero-reel.mp4" muted loop playsinline autoplay preload="auto" hidden></video>
+      <div class="hero__row">
+        <h1 class="hero__line kin">Music video VFX,<br>lyric videos &amp; AI visuals.</h1>
+        <div class="hero__ctas">
+          <a href="#contact" class="btn btn--accent" data-sfx>Start a project</a>
+          <a href="#work" class="btn btn--ghost" data-sfx>See the work</a>
+        </div>
+      </div>
+      <p class="hero__lyric mono" id="heroLyric" aria-hidden="true">♪ now playing — showreel 2026</p>
+    </section>
+
+    <!-- CREDITS -->
+    <section class="credits" aria-label="Trusted by">
+      <div class="credits__marquee">
+        <div class="credits__track">
+          <span class="credit"><img src="assets/pressa.webp" alt="">Pressa</span>
+          <span class="credit"><img src="assets/pouria.webp" alt="">Pouria K</span>
+          <span class="credit"><img src="assets/nina.webp" alt="">Nina Woods</span>
+          <span class="credit"><img src="assets/bundog.webp" alt="">Bundog</span>
+          <span class="credit"><img src="assets/yume.webp" alt="">Yume</span>
+          <span class="credit">Ndotspinalot</span>
+          <span class="credit">Owls</span>
+        </div>
+      </div>
+      <p class="credits__label mono">Trusted by artists &amp; labels</p>
+    </section>
+
+    <!-- STATEMENT: karaoke fill on scroll -->
+    <section class="statement">
+      <p class="karaoke kin" id="karaoke">I make songs look the way they sound. Every cut lands on the beat, every frame belongs to the track.</p>
+    </section>
+
+    <!-- WORK -->
+    <section class="work" id="work">
+      <div class="work__head">
+        <h2 class="title slice">Work</h2>
+        <div class="filters" aria-label="Filter work">
+          <button class="filter is-active" data-filter="all" data-sfx>All</button>
+          <button class="filter" data-filter="vfx" data-sfx>VFX</button>
+          <button class="filter" data-filter="lyric" data-sfx>Lyric</button>
+          <button class="filter" data-filter="ai" data-sfx>AI</button>
+          <button class="filter" data-filter="mv" data-sfx>Music video</button>
+        </div>
+      </div>
+      <div class="projects" id="projects">
+        <article class="project" data-cat="ai" data-yt="hTzdu0HxP6w" data-preview="assets/nasty-ai2.mp4">
+          <div class="project__media"><img src="https://img.youtube.com/vi/hTzdu0HxP6w/maxresdefault.jpg" alt="Pressa & Hunxho, Nasty" loading="lazy" crossorigin="anonymous"></div>
+          <div class="project__info"><h3>Nasty</h3><p class="mono">Pressa &amp; Hunxho / AI visuals</p></div>
+        </article>
+        <article class="project" data-cat="vfx" data-yt="Gw4wxamqd3k" data-preview="assets/ndot-vfx1.mp4">
+          <div class="project__media"><img src="assets/posters/ndot-vfx1.jpg" alt="Ndotspinalot, Runnin Thru The City" loading="lazy"></div>
+          <div class="project__info"><h3>Runnin Thru The City</h3><p class="mono">Ndotspinalot / VFX</p></div>
+        </article>
+        <article class="project" data-cat="vfx" data-yt="iv3K2Z1nKFc" data-preview="assets/owls-vfx3.mp4">
+          <div class="project__media"><img src="assets/posters/owls-vfx3.jpg" alt="Owls x Veli" loading="lazy"></div>
+          <div class="project__info"><h3>Owls</h3><p class="mono">Owls x Veli / VFX</p></div>
+        </article>
+        <article class="project project--crop" data-cat="vfx" data-video="assets/oddlord-vfx2.mp4" data-link="https://www.instagram.com/p/DEuHet7OZ8N/" data-preview="assets/oddlord-vfx2.mp4">
+          <div class="project__media"><img src="assets/posters/oddlord-vfx2.jpg" alt="Oddlord, Crime Scene" loading="lazy"></div>
+          <div class="project__info"><h3>Crime Scene</h3><p class="mono">Oddlord / VFX</p></div>
+        </article>
+        <article class="project" data-cat="lyric" data-yt="U5qXUP1zfe8" data-preview="assets/sknny-ly.mp4">
+          <div class="project__media"><img src="assets/posters/sknny-ly.jpg" alt="Pouria K, SKNY lyric video" loading="lazy"></div>
+          <div class="project__info"><h3>SKNY</h3><p class="mono">Pouria K / Lyric video</p></div>
+        </article>
+        <article class="project" data-cat="lyric" data-yt="TJvIMZQCaH8" data-preview="assets/pause-ly.mp4">
+          <div class="project__media"><img src="assets/posters/pause-ly.jpg" alt="Pouria K, Pause lyric video" loading="lazy"></div>
+          <div class="project__info"><h3>Pause</h3><p class="mono">Pouria K / Lyric video</p></div>
+        </article>
+        <article class="project" data-cat="mv" data-yt="B40RPIv-kBs">
+          <div class="project__media"><img src="https://img.youtube.com/vi/B40RPIv-kBs/maxresdefault.jpg" alt="Nina Woods, Missed Calls" loading="lazy" crossorigin="anonymous"></div>
+          <div class="project__info"><h3>Missed Calls</h3><p class="mono">Nina Woods / Visualizer</p></div>
+        </article>
+        <article class="project" data-cat="mv" data-yt="5SeHOvrld5Q">
+          <div class="project__media"><img src="https://img.youtube.com/vi/5SeHOvrld5Q/maxresdefault.jpg" alt="Bundog & Jackboy, Hot One" loading="lazy" crossorigin="anonymous"></div>
+          <div class="project__info"><h3>Hot One</h3><p class="mono">Bundog &amp; Jackboy / Music video</p></div>
+        </article>
+        <article class="project" data-cat="vfx" data-video="assets/fr-vfx.mp4" data-preview="assets/fr-vfx.mp4">
+          <div class="project__media"><img src="assets/posters/fr-vfx.jpg" alt="VFX test shot 01" loading="lazy"></div>
+          <div class="project__info"><h3>Test Shot 01</h3><p class="mono">Personal / VFX</p></div>
+        </article>
+        <article class="project" data-cat="vfx" data-video="assets/lst-vfx-1.mp4" data-preview="assets/lst-vfx-1.mp4">
+          <div class="project__media"><img src="assets/posters/lst-vfx-1.jpg" alt="VFX test shot 02" loading="lazy"></div>
+          <div class="project__info"><h3>Test Shot 02</h3><p class="mono">Personal / VFX</p></div>
+        </article>
+      </div>
+      <div class="work__cta">
+        <p class="kin">Got a release coming up?</p>
+        <a href="#contact" class="btn btn--accent" data-sfx>Let's make yours next</a>
+      </div>
+    </section>
+
+    <!-- SERVICES: the video plays inside the title on hover -->
+    <section class="services" id="services">
+      <h2 class="title slice">Services</h2>
+      <ul class="services__list">
+        <li class="service" data-sfx>
+          <div class="service__title">
+            <video src="assets/owls-vfx1.mp4" muted loop playsinline preload="none"></video>
+            <div class="service__knock"><span class="service__num mono">01</span><h3>Music video VFX</h3></div>
+          </div>
+          <p>Compositing, clean-up and stylised looks that make the video unforgettable.</p>
+        </li>
+        <li class="service" data-sfx>
+          <div class="service__title">
+            <video src="assets/pause-ly.mp4" muted loop playsinline preload="none"></video>
+            <div class="service__knock"><span class="service__num mono">02</span><h3>Lyric videos</h3></div>
+          </div>
+          <p>Kinetic type cut to the beat, in English, Farsi or any language.</p>
+        </li>
+        <li class="service" data-sfx>
+          <div class="service__title">
+            <video src="assets/nasty-ai4.mp4" muted loop playsinline preload="none"></video>
+            <div class="service__knock"><span class="service__num mono">03</span><h3>AI visuals</h3></div>
+          </div>
+          <p>Art-directed AI worlds and transitions that never look generic.</p>
+        </li>
+        <li class="service" data-sfx>
+          <div class="service__title">
+            <video src="assets/ndot-vfx2.mp4" muted loop playsinline preload="none"></video>
+            <div class="service__knock"><span class="service__num mono">04</span><h3>Visualizers &amp; social cuts</h3></div>
+          </div>
+          <p>Loops, Spotify Canvas and vertical cuts for the whole rollout.</p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="process" id="process">
+      <h2 class="title slice">How it works</h2>
+      <ol class="steps">
+        <li class="step"><span class="mono">Intro</span><h3>Send the brief</h3><p>The track, a few references and your release date.</p></li>
+        <li class="step"><span class="mono">Verse</span><h3>See the look first</h3><p>Concept and look tests before anything is final.</p></li>
+        <li class="step"><span class="mono">Drop</span><h3>Ready for release day</h3><p>Final masters plus vertical cuts, on schedule.</p></li>
+      </ol>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about" id="about">
+      <figure class="about__photo" data-sfx>
+        <img src="assets/me.webp" alt="Portrait of Omid" width="500" height="500" loading="lazy">
+        <img src="assets/me.webp" alt="" class="about__ghost about__ghost--r" aria-hidden="true">
+        <img src="assets/me.webp" alt="" class="about__ghost about__ghost--c" aria-hidden="true">
+      </figure>
+      <div class="about__text">
+        <p class="mono">About</p>
+        <h2 class="about__title kin">I'm Omid, a visual artist working where music meets motion.</h2>
+        <p class="about__body">VFX, lyric videos and AI visuals for rappers, singers and labels. Remote, worldwide.</p>
+        <div class="about__links">
+          <a href="https://instagram.com/oiviid" target="_blank" rel="noopener" class="btn btn--ghost" data-sfx>Instagram</a>
+          <a href="#contact" class="btn btn--accent" data-sfx>Work with me</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT: the words drop one by one, on the beat -->
+    <section class="contact" id="contact">
+      <a class="contact__title" id="contactTitle" href="mailto:editedbyomidd@gmail.com?subject=New%20project" data-sfx>
+        <span class="beat">Let's</span> <span class="beat">make</span> <span class="beat">it</span> <span class="beat beat--hit">loud.</span>
+      </a>
+      <div class="contact__row">
+        <button class="btn btn--paper" id="copyMail" data-sfx>editedbyomidd@gmail.com <em id="copyState" class="mono">copy</em></button>
+        <a class="btn btn--ghost-light" href="https://instagram.com/oiviid" target="_blank" rel="noopener" data-sfx>DM @oiviid</a>
+      </div>
+      <footer class="footer mono">
+        <span>©2026 Omid</span>
+        <a href="#top" data-sfx>Back to top ↑</a>
+      </footer>
+    </section>
+  </main>
+
+  <a href="#contact" class="sticky-cta btn btn--accent" id="stickyCta" data-sfx>Start a project</a>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Video player" hidden>
+    <button class="btn btn--paper lightbox__close" id="lbClose" data-sfx>Close</button>
+    <div class="lightbox__frame" id="lbFrame"></div>
+    <div class="lightbox__info">
+      <p class="lightbox__title"><strong id="lbTitle"></strong> <span class="mono" id="lbTags"></span></p>
+      <div class="lightbox__actions">
+        <a id="lbExternal" class="mono lightbox__ext" target="_blank" rel="noopener" hidden data-sfx>Open original ↗</a>
+        <a href="#contact" class="btn btn--accent" id="lbCta" data-sfx>Want this for your track?</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="js/sound.js"></script>
+  <script src="js/main.js" defer></script>
+  <script type="module" src="js/project-glitch.js"></script>
+</body>
+</html>
