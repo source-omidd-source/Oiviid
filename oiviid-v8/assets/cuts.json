@@ -1,0 +1,111 @@
+{
+ "fps": 30,
+ "width": 1280,
+ "height": 720,
+ "cuts": [
+  {
+   "frame": 45,
+   "type": "pair",
+   "points": [
+    [
+     0.375,
+     0.7666666666666667
+    ],
+    [
+     0.8125,
+     0.75
+    ]
+   ],
+   "label": "Match cut 01 \u2014 lights / headlights"
+  },
+  {
+   "frame": 62,
+   "type": "head",
+   "point": [
+    0.6546875,
+    0.17083333333333334
+   ],
+   "size": 0.071875,
+   "label": "Match cut 02 \u2014 head / head"
+  },
+  {
+   "frame": 102,
+   "type": "head",
+   "point": [
+    0.6578125,
+    0.11944444444444445
+   ],
+   "size": 0.0859375,
+   "label": "Match cut 03 \u2014 head / head"
+  },
+  {
+   "frame": 122,
+   "type": "head",
+   "point": [
+    0.5810586734693877,
+    0.34846938775510206
+   ],
+   "size": 0.09765625,
+   "label": "Match cut 04 \u2014 head / head"
+  },
+  {
+   "frame": 168,
+   "type": "head",
+   "point": [
+    0.510985331632653,
+    0.2906746031746032
+   ],
+   "size": 0.234375,
+   "label": "Match cut 05 \u2014 head / head"
+  },
+  {
+   "frame": 222,
+   "type": "head",
+   "point": [
+    0.5776875,
+    0.29416666666666663
+   ],
+   "size": 0.203125,
+   "label": "Match cut 06 \u2014 head / head"
+  }
+ ],
+ "shots": [
+  {
+   "name": "Runnin Thru The City",
+   "artist": "Ndotspinalot",
+   "start": 45,
+   "end": 61
+  },
+  {
+   "name": "Test shot",
+   "artist": "Personal",
+   "start": 62,
+   "end": 101
+  },
+  {
+   "name": "Test shot",
+   "artist": "Personal",
+   "start": 102,
+   "end": 121
+  },
+  {
+   "name": "Crime Scene (reversed)",
+   "artist": "Oddlord",
+   "start": 122,
+   "end": 167
+  },
+  {
+   "name": "Nasty",
+   "artist": "Pressa & Hunxho",
+   "start": 168,
+   "end": 221
+  },
+  {
+   "name": "Omid",
+   "artist": "",
+   "start": 222,
+   "end": 296
+  }
+ ],
+ "frames": 297
+}
